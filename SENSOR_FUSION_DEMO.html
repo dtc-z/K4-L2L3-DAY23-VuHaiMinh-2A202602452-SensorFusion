@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1020">
+<title>Day 23 · Sensor Fusion</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#141d32;--panel2:#1a2740;--ink:#edf3ff;--muted:#9eacc6;--cyan:#5ce1e6;--blue:#83a9ff;--orange:#ffbd69;--line:#293754;--green:#7fe0b0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#183052 0,transparent 36%),var(--bg);color:var(--ink);font:16px/1.55 Inter,"Segoe UI",system-ui,sans-serif}button,input{font:inherit}button{cursor:pointer;color:inherit}.deck{min-height:100vh;display:flex;flex-direction:column}.topbar{height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(18px,5vw,72px);border-bottom:1px solid #ffffff13;color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase}.brand{color:var(--ink);font-weight:750;letter-spacing:.04em}.slide{display:none;width:min(1120px,100%);margin:auto;padding:clamp(26px,6vh,64px) clamp(20px,6vw,76px) 40px;animation:enter .28s ease}.slide.active{display:block}@keyframes enter{from{opacity:.35;transform:translateY(8px)}to{opacity:1;transform:none}}.eyebrow{color:var(--cyan);text-transform:uppercase;font-weight:750;letter-spacing:.16em;font-size:12px}.hero h1{font-size:clamp(42px,8vw,86px);line-height:.99;letter-spacing:-.06em;margin:20px 0}.hero h1 span{color:var(--cyan)}h2{font-size:clamp(30px,5vw,54px);line-height:1.06;letter-spacing:-.045em;margin:12px 0 16px}h3{margin:0 0 8px;font-size:19px}p{color:#c5d0e3;margin:8px 0 16px}.lead{font-size:clamp(18px,2vw,23px);max-width:760px;color:#cad6eb}.muted{color:var(--muted)}.grid{display:grid;gap:16px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.card{background:linear-gradient(145deg,#17233aee,#111a2dcc);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 16px 42px #0002}.stat{font-size:clamp(28px,4vw,43px);font-weight:780;letter-spacing:-.04em;color:var(--cyan);line-height:1.1}.stat.orange{color:var(--orange)}.stat.blue{color:var(--blue)}.small{font-size:13px;color:var(--muted)}.pill{display:inline-flex;align-items:center;border:1px solid #ffffff20;background:#ffffff08;border-radius:999px;padding:5px 11px;color:#dce7f8;font-size:13px;margin:4px 5px 0 0}.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:stretch;margin:26px 0}.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;position:relative}.step:not(:last-child):after{content:"→";position:absolute;right:-17px;top:35%;z-index:2;color:var(--cyan);font-size:20px;font-weight:800}.step b{display:block;margin-bottom:5px;color:var(--cyan)}.formula{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#080d19;border:1px solid #26334b;border-radius:12px;padding:15px 18px;color:#d7e5ff;overflow-x:auto;margin:12px 0}.sensor{border-top:3px solid var(--blue)}.sensor.camera{border-color:var(--orange)}.sensor li,.card li{margin:7px 0;color:#c5d0e3}.sensor ul{padding-left:20px}.bar-row{display:grid;grid-template-columns:125px 1fr 90px;align-items:center;gap:14px;margin:20px 0}.track{height:18px;border-radius:99px;background:#080d19;overflow:hidden}.bar{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),#b4c9ff)}.bar.fused{background:linear-gradient(90deg,var(--cyan),#a2f3e7)}.bar-label{font-weight:700}.note{border-left:3px solid var(--orange);padding:9px 14px;background:#ffbd6910;color:#e9d5b7;border-radius:0 10px 10px 0;margin-top:18px}.demo-control{display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center;margin:15px 0}.demo-control label{color:#d4def0}.demo-control output{font-family:ui-monospace,monospace;color:var(--cyan)}input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--cyan)}.demo-result{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.demo-result strong{font-size:32px;color:var(--green)}.footer{margin-top:auto;border-top:1px solid #ffffff13;padding:14px clamp(18px,5vw,72px);display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:13px}.controls{display:flex;gap:8px;align-items:center}.controls button{border:1px solid var(--line);background:#ffffff09;border-radius:10px;padding:8px 14px}.controls button:hover{border-color:var(--cyan)}.controls button:disabled{opacity:.4;cursor:default}.progress{height:3px;background:#1b2941}.progress span{height:100%;width:12.5%;display:block;background:var(--cyan);transition:width .25s}.kbd{font-family:ui-monospace,monospace;border:1px solid var(--line);border-radius:5px;padding:1px 5px}.artifact{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#bbd5ff;overflow-wrap:anywhere;font-size:13px}.check{color:var(--green);font-weight:700}.big-arrow{font-size:32px;color:var(--cyan);text-align:center}.table{width:100%;border-collapse:collapse;margin-top:14px}.table th,.table td{text-align:left;border-bottom:1px solid var(--line);padding:10px 8px}.table th{color:var(--muted);font-size:13px}.table td:last-child{text-align:right;font-variant-numeric:tabular-nums}.footer-links a{color:var(--cyan);text-decoration:none;margin-left:12px}
+@media(max-width:760px){.grid.two,.grid.three{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.step:not(:last-child):after{content:"↓";right:16px;top:auto;bottom:-20px}.bar-row{grid-template-columns:90px 1fr 75px;gap:9px}.topbar{height:50px}.footer{gap:10px;flex-wrap:wrap}}
+@media print{body{background:#fff;color:#101828}.topbar,.footer,.progress{display:none!important}.slide,.slide.active{display:block!important;min-height:100vh;page-break-after:always;padding:28px;color:#101828}.card,.step,.formula{background:#f3f6fa;color:#101828;box-shadow:none}.card p,.card li,.lead,p{color:#28364b}.small,.muted{color:#526174}.hero h1 span,.stat,.stat.orange,.stat.blue{color:#087e83}.note{color:#54380b}.bar-row{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="deck">
+  <header class="topbar"><div class="brand">DAY 23 <span style="color:var(--cyan)">/</span> SENSOR FUSION</div><div>EKF · association · tracking</div></header>
+  <main>
+    <section class="slide hero active" aria-label="Giới thiệu">
+      <div class="eyebrow">Bài lab · K4 L2/L3</div>
+      <h1>Nhìn chuyển động<br>qua <span>hai cảm biến</span></h1>
+      <p class="lead">Kết hợp LiDAR và camera bằng Extended Kalman Filter (EKF), ghép phép đo với track, rồi theo dõi đối tượng qua các frame của Waymo.</p>
+      <div class="grid three" style="margin-top:34px">
+        <div class="card"><div class="stat">199</div><div>frame · frame 0–198</div><div class="small">Waymo training segment · seed 0</div></div>
+        <div class="card"><div class="stat blue">6D</div><div>trạng thái xe</div><div class="small">vị trí XYZ và vận tốc XYZ</div></div>
+        <div class="card"><div class="stat orange">E–H</div><div>phần hoàn thiện</div><div class="small">EKF · camera · association · lifecycle</div></div>
+      </div>
+      <p class="small" style="margin-top:26px">Điều hướng bằng <span class="kbd">←</span> <span class="kbd">→</span> hoặc các nút bên dưới. Nhấn “In / PDF” để lưu bản trình chiếu.</p>
+    </section>
+
+    <section class="slide" aria-label="Pipeline">
+      <div class="eyebrow">01 · Luồng xử lý</div><h2>Từ frame đến track cập nhật</h2>
+      <p class="lead">Mỗi frame dự đoán chuyển động trước, sau đó xử lý LiDAR và camera tuần tự trên cùng tập track.</p>
+      <div class="flow">
+        <div class="step"><b>1 · Đo LiDAR</b>Điểm đám mây → detection 3D</div>
+        <div class="step"><b>2 · Predict</b>EKF đưa mọi track tới thời điểm frame</div>
+        <div class="step"><b>3 · LiDAR update</b>Gating + ghép cặp + cập nhật / tạo track</div>
+        <div class="step"><b>4 · Camera update</b>Chiếu trạng thái ra pixel, ghép và cập nhật EKF</div>
+        <div class="step"><b>5 · Lifecycle</b>Quản lý score, confirmed, xóa track</div>
+      </div>
+      <div class="grid two">
+        <div class="card"><h3>Track-then-fuse</h3><p>Runner gọi predict một lần, rồi association/update LiDAR, rồi association/update camera trong cùng frame. Nhờ vậy, camera nhận trạng thái đã được hiệu chỉnh bởi LiDAR.</p></div>
+        <div class="card"><h3>Quyền quản lý track</h3><p>LiDAR là nguồn tạo track và cập nhật tuổi đời/score. Camera có thể hiệu chỉnh trạng thái EKF, nhưng không tự tạo, xác nhận hay xóa track.</p></div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="EKF">
+      <div class="eyebrow">02 · Bộ lọc</div><h2>Một trạng thái chung,<br>hai mô hình đo</h2>
+      <div class="formula">x = [p<sub>x</sub>, p<sub>y</sub>, p<sub>z</sub>, v<sub>x</sub>, v<sub>y</sub>, v<sub>z</sub>]<sup>T</sup></div>
+      <div class="grid two">
+        <div class="card sensor"><h3>LiDAR · XYZ (m)</h3><ul><li>Đo vị trí trực tiếp: <code>z<sub>L</sub> = H<sub>L</sub>x + noise</code></li><li>Jacobian <code>H<sub>L</sub></code> chọn ba thành phần vị trí</li><li>Covariance <code>R<sub>L</sub></code> có đơn vị m²</li></ul></div>
+        <div class="card sensor camera"><h3>Camera · pixel (u, v)</h3><ul><li>Dùng calibration để chiếu XYZ sang pixel qua mô hình pinhole <code>h<sub>C</sub>(x)</code></li><li>Jacobian <code>H<sub>C</sub></code> tuyến tính hóa phép chiếu quanh trạng thái hiện tại</li><li><code>R<sub>C</sub></code> có đơn vị pixel²</li></ul></div>
+      </div>
+      <div class="formula">Predict: x⁻ = F x, &nbsp; P⁻ = F P Fᵀ + Q<br>Update: r = z − h(x⁻), &nbsp; S = H P⁻ Hᵀ + R, &nbsp; K = P⁻ Hᵀ S⁻¹</div>
+      <p class="small">Mỗi cảm biến có hàm đo, Jacobian và covariance riêng; EKF chuyển residual của cảm biến thành hiệu chỉnh trên cùng trạng thái 6D.</p>
+    </section>
+
+    <section class="slide" aria-label="Association and tracking">
+      <div class="eyebrow">03 · Ghép đo và quản lý track</div><h2>Ghép theo độ bất định,<br>không chỉ khoảng cách</h2>
+      <div class="grid two">
+        <div class="card"><h3>Mahalanobis gating</h3><div class="formula">d² = rᵀ S⁻¹ r</div><p>Innovation covariance <code>S</code> chuẩn hóa residual theo độ bất định. Cặp vượt ngưỡng χ² bị loại trước greedy assignment; số chiều phụ thuộc loại phép đo.</p><span class="pill">LiDAR: residual 3D</span><span class="pill">Camera: residual pixel 2D</span></div>
+        <div class="card"><h3>Vòng đời track dựa trên LiDAR</h3><ul><li>Detection chưa ghép có thể khởi tạo track tentative.</li><li>Hit/miss cập nhật score; đủ ngưỡng thì thành confirmed.</li><li>Miss chỉ tính khi track nằm trong FOV LiDAR.</li><li>Camera cập nhật EKF nhưng không thay đổi score/lifecycle.</li></ul></div>
+      </div>
+      <div class="note">Frame có danh sách đo rỗng chưa đủ để biết sensor nào vừa chạy. Manager cần loại sensor tường minh để chỉ áp dụng miss/lifecycle khi đó là LiDAR.</div>
+    </section>
+
+    <section class="slide" aria-label="Interactive demo">
+      <div class="eyebrow">04 · Demo tương tác</div><h2>Phép đo chắc hơn kéo ước lượng nhiều hơn</h2>
+      <p class="lead">Thử thay vị trí đo hoặc nhiễu. Covariance đo càng nhỏ thì Kalman gain càng lớn, nên kết quả dịch nhiều hơn về phía phép đo.</p>
+      <div class="grid two">
+        <div class="card">
+          <h3>Phép đo giả lập 1D</h3><p class="small">Minh họa trực giác về trọng số EKF. Đây là ví dụ scalar đơn giản, không phải camera pixel projection thật của bài lab.</p>
+          <div class="demo-control"><label for="zL">LiDAR position z<sub>L</sub> (m)</label><output id="zLOut"></output><input id="zL" type="range" min="8" max="12" step="0.1" value="11"></div>
+          <div class="demo-control"><label for="rL">LiDAR variance R<sub>L</sub> (m²)</label><output id="rLOut"></output><input id="rL" type="range" min="0.25" max="4" step="0.05" value="1"></div>
+          <div class="demo-control"><label for="zC">Camera-equivalent z<sub>C</sub> (m)</label><output id="zCOut"></output><input id="zC" type="range" min="8" max="12" step="0.1" value="9.8"></div>
+          <div class="demo-control"><label for="rC">Camera-equivalent variance R<sub>C</sub> (m²)</label><output id="rCOut"></output><input id="rC" type="range" min="0.25" max="4" step="0.05" value="2"></div>
+        </div>
+        <div class="card"><h3>Cập nhật tuần tự</h3><div class="formula">Prior: x = 10.00 m, P = 4.00 m²</div><p>1. Cập nhật với LiDAR: <span id="afterLidar" class="demo-result"><strong>—</strong></span></p><p>2. Tiếp tục với phép đo camera tương đương:</p><div class="demo-result">Ước lượng cuối <strong id="finalX">—</strong></div><p class="small">Covariance cuối: <span id="finalP">—</span> m². Với cùng residual, tăng R sẽ giảm trọng số của sensor đó.</p></div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Results">
+      <div class="eyebrow">05 · Kết quả chạy thật</div><h2>Camera giảm RMSE trong lượt compare này</h2>
+      <p class="lead">Toàn bộ frame 0–198, cùng seed và cùng tập 502 match ở hai chế độ.</p>
+      <div class="card">
+        <div class="bar-row"><div class="bar-label">LiDAR-only</div><div class="track"><div class="bar" style="width:83.5%"></div></div><strong>0.1503 m</strong></div>
+        <div class="bar-row"><div class="bar-label">LiDAR + camera</div><div class="track"><div class="bar fused" style="width:75.5%"></div></div><strong>0.1358 m</strong></div>
+        <div class="small">RMSE vị trí thấp hơn là tốt hơn · thanh được chuẩn hóa theo 0.18 m</div>
+      </div>
+      <div class="grid three" style="margin-top:16px">
+        <div class="card"><div class="stat">−9.6%</div><div>RMSE so với LiDAR-only</div><div class="small">Giảm khoảng 0.0144 m</div></div>
+        <div class="card"><div class="stat blue">502</div><div>matches mỗi chế độ</div><div class="small">239 missed GT · 0 ghost track-frames</div></div>
+        <div class="card"><div class="stat orange">0.970</div><div>detection precision</div><div class="small">recall 0.700 · TP 519 / FP 16 / FN 222</div></div>
+      </div>
+      <div class="note">Trong run này camera cải thiện sai số vị trí trên các match hiện có; số matches, misses, ghosts và confirmed tracks trung bình giống LiDAR-only.</div>
+    </section>
+
+    <section class="slide" aria-label="Interpretation and artifacts">
+      <div class="eyebrow">06 · Diễn giải và tái lập</div><h2>Kết quả cần đọc cùng cách tạo phép đo</h2>
+      <div class="grid two">
+        <div class="card"><h3>Giới hạn quan trọng</h3><p>Camera trong lab lấy tâm hộp FRONT từ nhãn ground-truth rồi thêm nhiễu seeded. Đây là camera observation mô phỏng; không có camera detector độc lập. Vì vậy mức giảm RMSE kiểm tra luồng EKF/fusion trên phép đo mô phỏng, chưa đánh giá chất lượng perception camera thực.</p></div>
+        <div class="card"><h3>Artifacts được tạo</h3><div class="artifact">student/artifacts/metrics.json<br>student/artifacts/metrics_lidar.json<br>student/artifacts/metrics_fused.json<br>student/artifacts/grade_run.log<br>student/artifacts/grade_run_lidar.log<br>student/artifacts/grade_run_fused.log</div><p class="small">Metrics và log đã được đối chiếu trên 199 frame mỗi mode.</p></div>
+      </div>
+      <div class="grid two" style="margin-top:16px">
+        <div class="card"><h3>Chạy lại trên Windows</h3><div class="formula">$env:PYTHONUTF8 = "1"<br>pytest student/tests -q<br>fusion-run-lab --config student/config/paths.yaml --fusion compare --seed 0</div><p class="small">Cần kích hoạt env day23_sensor_fusion trước. Cấu hình BLAS OpenBLAS trong environment.yml tránh xung đột runtime OpenMP của env Windows.</p></div>
+        <div class="card"><h3>Kiểm tra hoàn tất</h3><p><span class="check">✓</span> Test suite: 128 passed</p><p><span class="check">✓</span> Compare: đủ 199 frame/mode</p><p><span class="check">✓</span> Artifacts và invariant từng frame đã xác minh</p><p class="small">Báo cáo chi tiết: <span class="artifact">student/SUBMISSION.md</span></p></div>
+      </div>
+    </section>
+
+    <section class="slide hero" aria-label="Kết luận">
+      <div class="eyebrow">07 · Kết luận</div><h2>Fusion chỉ hữu ích khi<br>phép đo và độ tin cậy<br><span style="color:var(--cyan)">được mô hình đúng</span></h2>
+      <div class="grid three" style="margin-top:30px">
+        <div class="card"><h3>EKF</h3><p>Chuyển các phép đo khác đơn vị về hiệu chỉnh trạng thái chung.</p></div>
+        <div class="card"><h3>Association</h3><p>Dùng uncertainty-aware gating để giảm ghép nhầm.</p></div>
+        <div class="card"><h3>Đánh giá</h3><p>So sánh cùng frame/match và nêu rõ dữ liệu camera là mô phỏng.</p></div>
+      </div>
+      <p class="small" style="margin-top:28px">Vu Hai Minh · K4-L2L3-DAY23 · Sensor Fusion</p>
+    </section>
+  </main>
+  <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+  <footer class="footer"><div><span id="counter">1 / 8</span> &nbsp;·&nbsp; phím <span class="kbd">←</span> <span class="kbd">→</span></div><div class="controls"><button id="prev" aria-label="Slide trước">← Trước</button><button id="next" aria-label="Slide tiếp">Tiếp →</button><button id="print">In / PDF</button></div></footer>
+</div>
+<script>
+(()=>{
+  const slides=[...document.querySelectorAll('.slide')],counter=document.getElementById('counter'),progress=document.getElementById('progress'),prev=document.getElementById('prev'),next=document.getElementById('next');let index=0;
+  function show(n){index=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,i)=>s.classList.toggle('active',i===index));counter.textContent=`${index+1} / ${slides.length}`;progress.style.width=`${(index+1)/slides.length*100}%`;prev.disabled=index===0;next.disabled=index===slides.length-1;}
+  prev.addEventListener('click',()=>show(index-1));next.addEventListener('click',()=>show(index+1));document.getElementById('print').addEventListener('click',()=>window.print());document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();show(index+1)}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(index-1)}});
+  const ids=['zL','rL','zC','rC'];function update(){const v=Object.fromEntries(ids.map(id=>[id,Number(document.getElementById(id).value)]));ids.forEach(id=>document.getElementById(id+'Out').textContent=v[id].toFixed(2));const x0=10,p0=4,kL=p0/(p0+v.rL),x1=x0+kL*(v.zL-x0),p1=(1-kL)*p0,kC=p1/(p1+v.rC),x2=x1+kC*(v.zC-x1),p2=(1-kC)*p1;document.getElementById('afterLidar').innerHTML=`<strong>${x1.toFixed(3)} m</strong><span class="small">P = ${p1.toFixed(3)} m²</span>`;document.getElementById('finalX').textContent=`${x2.toFixed(3)} m`;document.getElementById('finalP').textContent=p2.toFixed(3)}ids.forEach(id=>document.getElementById(id).addEventListener('input',update));update();show(0);
+})();
+</script>
+</body>
+</html>
